@@ -278,11 +278,11 @@ class ReservationList extends Component<ReservationListProps, State> {
     }
 
     return (
-<View style={{ height: height - 400}}>
+<View>
       <FlatList
         ref={this.list}
-        // style={style}
-        // contentContainerStyle={this.style.content}
+        style={style}
+        contentContainerStyle={this.style.content}
         data={this.state.reservations}
         renderItem={this.renderRow}
         keyExtractor={this.keyExtractor}
@@ -297,7 +297,7 @@ class ReservationList extends Component<ReservationListProps, State> {
         onScrollEndDrag={this.props.onScrollEndDrag}
         onMomentumScrollBegin={this.props.onMomentumScrollBegin}
         onMomentumScrollEnd={this.props.onMomentumScrollEnd}
-        onEndReachedThreshold={this.props.onEndReachedThreshold}
+        onEndReachedThreshold={0}
         onEndReached={this.onEndReached}
       />
 </View>
