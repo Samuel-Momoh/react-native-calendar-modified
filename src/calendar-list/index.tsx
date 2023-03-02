@@ -18,7 +18,7 @@ import CalendarHeader from '../calendar/header/index';
 
 const CALENDAR_WIDTH = constants.screenWidth;
 const CALENDAR_HEIGHT = 360;
-const PAST_SCROLL_RANGE = 50;
+const PAST_SCROLL_RANGE = 12;
 const FUTURE_SCROLL_RANGE = 10;
 
 export interface CalendarListProps extends CalendarProps, Omit<FlatListProps<any>, 'data' | 'renderItem'> {
