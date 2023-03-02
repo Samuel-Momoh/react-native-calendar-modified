@@ -214,36 +214,35 @@ class ReservationList extends Component<ReservationListProps, State> {
   }
 
   onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    // const yOffset = event.nativeEvent.contentOffset.y;
-    // this.props.onScroll?.(yOffset);
+    const yOffset = event.nativeEvent.contentOffset.y;
+    this.props.onScroll?.(event);
 
-    // let topRowOffset = 0;
-    // let topRow;
-    // for (topRow = 0; topRow < this.heights.length; topRow++) {
-    //   if (topRowOffset + this.heights[topRow] / 2 >= yOffset) {
-    //     break;
-    //   }
-    //   topRowOffset += this.heights[topRow];
-    // }
+    let topRowOffset = 0;
+    let topRow;
+    for (topRow = 0; topRow < this.heights.length; topRow++) {
+      if (topRowOffset + this.heights[topRow] / 2 >= yOffset) {
+        break;
+      }
+      topRowOffset += this.heights[topRow];
+    }
 
-    // const row = this.state.reservations[topRow];
-    // if (!row) return;
+    const row = this.state.reservations[topRow];
+    if (!row) return;
 
-    // const day = row.date;
-    // if (day) {
-    //   if (!sameDate(day, this.selectedDay) && this.scrollOver) {
-    //     this.selectedDay = day.clone();
-    //     this.props.onDayChange?.(day.clone());
-    //   }
-    // }
-    return event;
+    const day = row.date;
+    if (day) {
+      if (!sameDate(day, this.selectedDay) && this.scrollOver) {
+        this.selectedDay = day.clone();
+        this.props.onDayChange?.(day.clone());
+      }
+    }
   };
 
   onListTouch() {
     this.scrollOver = true;
   }
   onEndReached(e: any) {
-    return e
+    this.props.onEndReached?.(e);
   }
   onRowLayoutChange(index: number, event: LayoutChangeEvent) {
     this.heights[index] = event.nativeEvent.layout.height;
