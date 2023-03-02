@@ -116,7 +116,7 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
 
   const items = useMemo(() => {
     const months = [];
-    for (let i = 0; i <= 5 + 5; i++) {
+    for (let i = 0; i <= 10 + 10; i++) {
       const rangeDate = initialDate.current?.clone().addMonths(i - pastScrollRange, true);
       months.push(rangeDate);
     }
