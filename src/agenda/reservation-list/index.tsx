@@ -242,6 +242,7 @@ class ReservationList extends Component<ReservationListProps, State> {
     this.scrollOver = true;
   }
   onEndReached(e: any) {
+    console.log(e,"scrolling")
     return e
   }
   onRowLayoutChange(index: number, event: LayoutChangeEvent) {
@@ -297,7 +298,7 @@ class ReservationList extends Component<ReservationListProps, State> {
         onScrollEndDrag={this.props.onScrollEndDrag}
         onMomentumScrollBegin={this.props.onMomentumScrollBegin}
         onMomentumScrollEnd={this.props.onMomentumScrollEnd}
-        onEndReachedThreshold={0}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
         onEndReached={this.onEndReached}
       />
 </View>
