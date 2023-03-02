@@ -18,8 +18,8 @@ import CalendarHeader from '../calendar/header/index';
 
 const CALENDAR_WIDTH = constants.screenWidth;
 const CALENDAR_HEIGHT = 360;
-const PAST_SCROLL_RANGE = 12;
-const FUTURE_SCROLL_RANGE = 10;
+const PAST_SCROLL_RANGE = 50;
+const FUTURE_SCROLL_RANGE = 50;
 
 export interface CalendarListProps extends CalendarProps, Omit<FlatListProps<any>, 'data' | 'renderItem'> {
   /** Max amount of months allowed to scroll to the past. Default = 50 */
@@ -116,7 +116,7 @@ const CalendarList = (props: CalendarListProps & ContextProp, ref: any) => {
 
   const items = useMemo(() => {
     const months = [];
-    for (let i = 0; i <= 6 + 5; i++) {
+    for (let i = 0; i <= pastScrollRange + futureScrollRange; i++) {
       const rangeDate = initialDate.current?.clone().addMonths(i - pastScrollRange, true);
       months.push(rangeDate);
     }
