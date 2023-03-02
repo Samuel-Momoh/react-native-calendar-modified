@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
 import React, {Component} from 'react';
-import {ActivityIndicator, View, FlatList, StyleProp, ViewStyle, TextStyle, NativeSyntheticEvent, NativeScrollEvent, LayoutChangeEvent, Dimensions} from 'react-native';
+import {ActivityIndicator, View, FlatList, StyleProp, ViewStyle, TextStyle, NativeSyntheticEvent, NativeScrollEvent, LayoutChangeEvent} from 'react-native';
 
 import {extractReservationProps} from '../../componentUpdater';
 import {sameDate} from '../../dateutils';
@@ -12,7 +12,7 @@ import styleConstructor from './style';
 import Reservation, {ReservationProps} from './reservation';
 import {AgendaEntry, AgendaSchedule, DayAgenda} from '../../types';
 
-const { height } = Dimensions.get('screen');
+
 export type ReservationListProps = ReservationProps & {
   /** the list of items that have to be displayed in agenda. If you want to render item as empty date
   the value of date key kas to be an empty array []. If there exists no value for date key it is
@@ -241,9 +241,9 @@ class ReservationList extends Component<ReservationListProps, State> {
   onListTouch() {
     this.scrollOver = true;
   }
-  onEndReached(e: any) {
-    this.props.onEndReached?.(e);
-  }
+  // onEndReached(e: any) {
+  //   this.props.onEndReached?.(e);
+  // }
   onRowLayoutChange(index: number, event: LayoutChangeEvent) {
     this.heights[index] = event.nativeEvent.layout.height;
   }
@@ -298,7 +298,7 @@ class ReservationList extends Component<ReservationListProps, State> {
         onMomentumScrollBegin={this.props.onMomentumScrollBegin}
         onMomentumScrollEnd={this.props.onMomentumScrollEnd}
         onEndReachedThreshold={this.props.onEndReachedThreshold}
-        onEndReached={this.onEndReached}
+        onEndReached={this.props.onEndReached}
       />
 </View>
     );
