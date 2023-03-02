@@ -282,9 +282,9 @@ class ReservationList extends Component<ReservationListProps, State> {
       <FlatList
         ref={this.list}
         style={style}
-        contentContainerStyle={this.style.content}
+        // contentContainerStyle={this.style.content}
         data={this.state.reservations}
-        // renderItem={this.renderRow}
+        renderItem={this.renderRow}
         keyExtractor={this.keyExtractor}
         showsVerticalScrollIndicator={false}
         scrollEventThrottle={200}
