@@ -30,6 +30,10 @@ export type ReservationListProps = ReservationProps & {
 
   /** onScroll FlatList event */
   onScroll?: (yOffset: number) => void;
+  /** onEndReachedThreshold */
+  onEndReachedThreshold?: number;
+   /** onEndReached */
+   onEndReached?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /** Called when the user begins dragging the agenda list **/
   onScrollBeginDrag?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   /** Called when the user stops dragging the agenda list **/
@@ -64,7 +68,8 @@ class ReservationList extends Component<ReservationListProps, State> {
     
     showOnlySelectedDayItems: PropTypes.bool,
     renderEmptyData: PropTypes.func,
-
+    onEndReachedThreshold: PropTypes.number,
+    onEndReached: PropTypes.func,
     onScroll: PropTypes.func,
     onScrollBeginDrag: PropTypes.func,
     onScrollEndDrag: PropTypes.func,
@@ -236,7 +241,9 @@ class ReservationList extends Component<ReservationListProps, State> {
   onListTouch() {
     this.scrollOver = true;
   }
-
+  onEndReached(e: any) {
+    return e
+  }
   onRowLayoutChange(index: number, event: LayoutChangeEvent) {
     this.heights[index] = event.nativeEvent.layout.height;
   }
@@ -289,6 +296,8 @@ class ReservationList extends Component<ReservationListProps, State> {
         onScrollEndDrag={this.props.onScrollEndDrag}
         onMomentumScrollBegin={this.props.onMomentumScrollBegin}
         onMomentumScrollEnd={this.props.onMomentumScrollEnd}
+        onEndReachedThreshold={this.props.onEndReachedThreshold}
+        onEndReached={this.onEndReached}
       />
     );
   }
