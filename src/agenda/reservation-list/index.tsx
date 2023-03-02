@@ -278,10 +278,10 @@ class ReservationList extends Component<ReservationListProps, State> {
     }
 
     return (
-<View style={{flex: 1, height: height - 400}}>
+<View style={{ height: height - 400}}>
       <FlatList
         ref={this.list}
-        style={style}
+        // style={style}
         // contentContainerStyle={this.style.content}
         data={this.state.reservations}
         renderItem={this.renderRow}
