@@ -463,7 +463,7 @@ export default class Agenda extends Component<AgendaProps, State> {
         <View style={this.style.reservations}>{this.renderReservations()}</View>
         <Animated.View style={headerStyle}>
           <Animated.View style={[this.style.animatedContainer, {transform: [{translateY: contentTranslate}]}]}>
-            {/* {this.renderCalendarList()} */}
+            {this.renderCalendarList()}
           </Animated.View>
           {this.renderKnob()}
         </Animated.View>
