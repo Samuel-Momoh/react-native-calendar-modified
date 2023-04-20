@@ -1,5 +1,5 @@
 import React, {Fragment, useCallback, useRef} from 'react';
-import {TouchableOpacity, Text, View, ViewProps} from 'react-native';
+import {TouchableOpacity, Text, View, ViewProps, Pressable} from 'react-native';
 
 import {xdateToData} from '../../../interface';
 import {Theme, DayState, MarkingTypes, DateData} from '../../../types';
@@ -170,7 +170,7 @@ const BasicDay = (props: BasicDayProps) => {
     const {activeOpacity} = _marking;
 
     return (
-      <TouchableOpacity
+      <Pressable
         testID={testID}
         style={getContainerStyle()}
         disabled={shouldDisableTouchEvent()}
@@ -182,7 +182,7 @@ const BasicDay = (props: BasicDayProps) => {
         accessibilityLabel={accessibilityLabel}
       >
         {isMultiPeriod ? renderText() : renderContent()}
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
