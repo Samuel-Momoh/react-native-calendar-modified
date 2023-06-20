@@ -5,6 +5,8 @@ export {default as NewCalendarList} from './calendar-list/new';
 export type {CalendarListProps} from './calendar-list';
 export {default as Agenda} from './agenda';
 export type {AgendaProps} from './agenda';
+export {default as Schedule} from './Schedule';
+export type {ScheduleProps} from './Schedule';
 export {default as ExpandableCalendar} from './expandableCalendar';
 export type {ExpandableCalendarProps} from './expandableCalendar';
 export {default as WeekCalendar} from './expandableCalendar/WeekCalendar/new';

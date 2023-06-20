@@ -102,7 +102,8 @@ const CalendarProvider = (props: CalendarContextProviderProps) => {
       setDate: _setDate,
       setDisabled: _setDisabled,
       numberOfDays,
-      timelineLeftInset
+      timelineLeftInset,
+      currentDate
     };
   }, [currentDate, updateSource, numberOfDays, _setDisabled]);
 

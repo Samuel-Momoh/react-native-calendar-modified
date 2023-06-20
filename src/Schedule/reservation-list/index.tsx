@@ -5,12 +5,12 @@ import XDate from 'xdate';
 import React, { Component } from 'react';
 import { ActivityIndicator, View, FlatList, StyleProp, ViewStyle, TextStyle, NativeSyntheticEvent, NativeScrollEvent, LayoutChangeEvent } from 'react-native';
 
-import { extractReservationProps } from '../../componentUpdater';
-import { sameDate } from '../../dateutils';
-import { toMarkingFormat } from '../../interface';
-import styleConstructor from './style';
-import Reservation, { ReservationProps } from './reservation';
-import { AgendaEntry, AgendaSchedule, DayAgenda } from '../../types';
+import { extractReservationProps } from 'react-native-calendars/src/componentUpdater';
+import { sameDate } from 'react-native-calendars/src/dateutils';
+import { toMarkingFormat } from 'react-native-calendars/src/interface';
+import styleConstructor from 'react-native-calendars/src/Schedule/reservation-list/style';
+import Reservation, { ReservationProps } from 'react-native-calendars/src/Schedule/reservation-list/reservation';
+import { AgendaEntry, AgendaSchedule, DayAgenda } from 'react-native-calendars/src/types';
 
 
 export type ReservationListProps = ReservationProps & {
@@ -50,6 +50,8 @@ export type ReservationListProps = ReservationProps & {
   onRefresh?: () => void;
   /** Extractor for underlying FlatList. Ensure that this is unique per item, or else scrolling may have duplicated and / or missing items.  */
   reservationsKeyExtractor?: (item: DayAgenda, index: number) => string;
+  /**Hide date on left */
+  hideDate?: boolean;
 };
 
 interface State {
@@ -78,7 +80,8 @@ class ReservationList extends Component<ReservationListProps, State> {
     refreshControl: PropTypes.element,
     refreshing: PropTypes.bool,
     onRefresh: PropTypes.func,
-    reservationsKeyExtractor: PropTypes.func
+    reservationsKeyExtractor: PropTypes.func,
+    hideDate: PropTypes.bool
   };
 
   static defaultProps = {
@@ -255,10 +258,11 @@ class ReservationList extends Component<ReservationListProps, State> {
 
   renderRow = ({ item, index }: { item: DayAgenda; index: number }) => {
     const reservationProps = extractReservationProps(this.props);
+    const { hideDate } = this.props
 
     return (
-      <View onLayout={this.onRowLayoutChange.bind(this, index)}>
-        <Reservation {...reservationProps} item={item.reservation} date={item.date} />
+      <View onLayout={this.onRowLayoutChange.bind(this, index)} style={{}}>
+        <Reservation {...reservationProps} item={item.reservation} date={item.date} hideDate={hideDate} />
       </View>
     );
   };

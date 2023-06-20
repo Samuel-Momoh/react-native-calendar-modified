@@ -104,7 +104,9 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     current = '',
     timelineLeftInset
   } = props;
-  
+
+
+  // console.log(currentDay, "ordinarry")
   const numberOfDaysCondition = useMemo(() => {
     return numberOfDays && numberOfDays > 1;
   }, [numberOfDays]);

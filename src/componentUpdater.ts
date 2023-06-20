@@ -275,7 +275,7 @@ export function extractReservationProps(props: ReservationListProps) {
     rowHasChanged,
     renderDay,
     renderItem,
-    renderEmptyDate
+    renderEmptyDate,
   } = props;
 
   const reservationProps = {

@@ -5,7 +5,7 @@ import throttle from 'lodash/throttle';
 
 import XDate from 'xdate';
 
-import React, {useContext, useRef, useState, useEffect, useCallback, useMemo} from 'react';
+import React, { useContext, useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import {
   AccessibilityInfo,
   PanResponder,
@@ -19,18 +19,18 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import {page} from '../dateutils';
-import {parseDate, toMarkingFormat} from '../interface';
-import {DateData, Direction} from '../types';
-import styleConstructor, {HEADER_HEIGHT, KNOB_CONTAINER_HEIGHT} from './style';
+import { page } from '../dateutils';
+import { parseDate, toMarkingFormat } from '../interface';
+import { DateData, Direction } from '../types';
+import styleConstructor, { HEADER_HEIGHT, KNOB_CONTAINER_HEIGHT } from './style';
 import WeekDaysNames from '../commons/WeekDaysNames';
 import Calendar from '../calendar';
-import CalendarList, {CalendarListProps} from '../calendar-list';
+import CalendarList, { CalendarListProps } from '../calendar-list';
 import Week from './week';
 import WeekCalendar from './WeekCalendar';
 import Context from './Context';
 import constants from '../commons/constants';
-import {UpdateSources} from './commons';
+import { UpdateSources } from './commons';
 
 export enum Positions {
   CLOSED = 'closed',
@@ -44,7 +44,7 @@ const DAY_NAMES_PADDING = 24;
 const PAN_GESTURE_THRESHOLD = 30;
 const LEFT_ARROW = require('../calendar/img/previous.png');
 const RIGHT_ARROW = require('../calendar/img/next.png');
-const knobHitSlop = {left: 10, right: 10, top: 10, bottom: 10};
+const knobHitSlop = { left: 10, right: 10, top: 10, bottom: 10 };
 
 export interface ExpandableCalendarProps extends CalendarListProps {
   /** the initial position of the calendar ('open' or 'closed') */
@@ -69,6 +69,8 @@ export interface ExpandableCalendarProps extends CalendarListProps {
   closeThreshold?: number;
   /** Whether to close the calendar on day press. Default = true */
   closeOnDayPress?: boolean;
+  /** Return Response when an arrow is clicked */
+  onPressArrow?: (date: string) => any
 }
 
 const headerStyleOverride = {
@@ -95,7 +97,7 @@ const headerStyleOverride = {
  */
 
 const ExpandableCalendar = (props: ExpandableCalendarProps) => {
-  const {date, setDate, numberOfDays, timelineLeftInset} = useContext(Context);
+  const { date, setDate, numberOfDays, timelineLeftInset } = useContext(Context);
   const {
     /** ExpandableCalendar props */
     initialPosition = Positions.CLOSED,
@@ -118,6 +120,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
     firstDay = 0,
     onDayPress,
     hideArrows,
+    onPressArrow,
     onPressArrowLeft,
     onPressArrowRight,
     renderArrow,
@@ -199,9 +202,9 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
   const style = useRef(styleConstructor(theme));
   const themeObject = Object.assign(headerStyleOverride, theme);
 
-  const _wrapperStyles = useRef({style: {height: startHeight}});
-  const _headerStyles = {style: {top: isOpen ? -HEADER_HEIGHT : 0}};
-  const _weekCalendarStyles = {style: {opacity: isOpen ? 0 : 1}};
+  const _wrapperStyles = useRef({ style: { height: startHeight } });
+  const _headerStyles = { style: { top: isOpen ? -HEADER_HEIGHT : 0 } };
+  const _weekCalendarStyles = { style: { opacity: isOpen ? 0 : 1 } };
 
   const shouldHideArrows = !horizontal ? true : hideArrows || false;
 
@@ -229,7 +232,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
   }, [calendarStyle]);
 
   const animatedHeaderStyle = useMemo(() => {
-    return [style.current.header, {height: HEADER_HEIGHT + 10, top: headerDeltaY.current}];
+    return [style.current.header, { height: HEADER_HEIGHT + 10, top: headerDeltaY.current }];
   }, [headerDeltaY.current]);
 
   const weekCalendarStyle = useMemo(() => {
@@ -241,7 +244,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
   }, [allowShadow, propsStyle]);
 
   const wrapperStyle = useMemo(() => {
-    return {height: deltaY};
+    return { height: deltaY };
   }, [deltaY]);
 
   /** Effects */
@@ -262,6 +265,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
     scrollToDate(date);
   }, [date]);
 
+
   const handleScreenReaderStatus = (screenReaderEnabled: any) => {
     setScreenReaderEnabled(screenReaderEnabled);
   };
@@ -275,6 +279,9 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
       // don't scroll if the month is already visible
       calendarList?.current?.scrollToMonth(date);
     }
+
+    // Pass date to scroll function
+    // console.log("here now")
   };
 
   const scrollPage = useCallback((next: boolean) => {
@@ -302,6 +309,8 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
       }
 
       setDate?.(toMarkingFormat(d), UpdateSources.PAGE_SCROLL);
+      onPressArrow?.(toMarkingFormat(d));
+      // console.log(toMarkingFormat(d), UpdateSources.PAGE_SCROLL, "scroll date")
     }
   }, [horizontal, isOpen, firstDay, numberOfDays, setDate, date]);
 
@@ -468,7 +477,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
           }, 0);
         }
       }
-    }, 100, {trailing: true, leading: false}
+    }, 100, { trailing: true, leading: false }
   ), [date, scrollPage]);
 
   /** Renders */
@@ -518,7 +527,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
   const renderKnob = () => {
     return (
       <View style={style.current.knobContainer} pointerEvents={'box-none'}>
-        <TouchableOpacity style={style.current.knob} testID={`${testID}.knob`} onPress={toggleCalendarPosition} hitSlop={knobHitSlop} /* activeOpacity={isOpen ? undefined : 1} *//>
+        <TouchableOpacity style={style.current.knob} testID={`${testID}.knob`} onPress={toggleCalendarPosition} hitSlop={knobHitSlop} /* activeOpacity={isOpen ? undefined : 1} */ />
       </View>
     );
   };
@@ -551,7 +560,7 @@ const ExpandableCalendar = (props: ExpandableCalendarProps) => {
 
   const numberOfDaysHeaderStyle = useMemo(() => {
     if (numberOfDays && numberOfDays > 1) {
-      return {paddingHorizontal: 0};
+      return { paddingHorizontal: 0 };
     }
   }, [numberOfDays]);
 
