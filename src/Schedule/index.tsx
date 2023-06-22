@@ -56,6 +56,8 @@ export type ScheduleProps = CalendarListProps & ReservationListProps & Expandabl
   hideKnob?: boolean;
   /** Whether the knob should always be visible (when hideKnob = false) */
   showClosingKnob?: boolean;
+  /** Calendar scroll */
+  onCalendarSwipe?: (data: DateData) => void;
 }
 
 type State = {
@@ -346,6 +348,13 @@ export default class Schedule extends Component<ScheduleProps, State> {
     this.props.onDayChange?.(xdateToData(date));
   }
 
+
+dateChangeFnc = (day: XDate) => {
+  let date: XDate = new XDate(day);
+
+  this.props.onCalendarSwipe?.(xdateToData(date));
+}
+
   renderReservations() {
     const reservationListProps = extractReservationListProps(this.props);
     if (isFunction(this.props.renderList)) {
@@ -379,13 +388,17 @@ export default class Schedule extends Component<ScheduleProps, State> {
     return (
       <CalendarProvider
         date={this.state.selectedDay}
+        onDateChanged={this.dateChangeFnc}
+        
       >
         <ExpandableCalendar
           {...calendarListProps}
           current={getCalendarDateString(this.currentMonth.toString())}
           markedDates={this.generateMarkings(this.state.selectedDay, markedDates, items)}
           onDayPress={this.onDayPress}
-          onPressArrow={this.onArrowClick}
+          onPressArrow={this.dateChangeFnc}
+          // onPressArrow={this.onArrowClick}
+        
         />
       </CalendarProvider>
     )

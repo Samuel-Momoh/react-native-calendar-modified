@@ -53,6 +53,8 @@ export interface CalendarHeaderProps {
   disabledDaysIndexes?: number[];
   /** Replace default title with custom one. the function receive a date as parameter */
   renderHeader?: (date?: XDate) => ReactNode; //TODO: replace with string
+  /** Render second header */
+  enableCustomHeader?: boolean;
   /** Replace default title with custom element */
   customHeaderTitle?: JSX.Element;
 
@@ -102,7 +104,8 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     importantForAccessibility,
     numberOfDays,
     current = '',
-    timelineLeftInset
+    timelineLeftInset,
+    enableCustomHeader
   } = props;
 
 
@@ -287,6 +290,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
       accessibilityElementsHidden={accessibilityElementsHidden} // iOS
       importantForAccessibility={importantForAccessibility} // Android
     >
+      {/* <View style={{flex: 1, flexDirection: "row", justifyContent:"space-between"}}>
       <View style={headerStyle}>
         {_renderArrow('left')}
         <View style={style.current.headerContainer}>
@@ -294,7 +298,19 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
           {renderIndicator()}
         </View>
         {_renderArrow('right')}
-      </View>
+      </View> 
+      <View style={{width: 40, height: 40, backgroundColor:"red"}}/>
+      </View> */}
+      <View style={headerStyle}>
+        {_renderArrow('left')}
+        <View style={style.current.headerContainer}>
+          {_renderHeader()}
+          {renderIndicator()}
+        </View>
+        {_renderArrow('right')}
+      </View> 
+
+    
       {renderDayNames()}
     </View>
   );
