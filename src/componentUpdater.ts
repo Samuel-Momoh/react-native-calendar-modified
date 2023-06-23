@@ -114,7 +114,9 @@ export function extractHeaderProps(props: CalendarProps) {
     numberOfDays,
     current,
     timelineLeftInset,
-    testID
+    testID,
+    showheaderWithBtn,
+    headerWithBtn
   } = props;
 
   const headerProps = {
@@ -139,7 +141,9 @@ export function extractHeaderProps(props: CalendarProps) {
     numberOfDays,
     current,
     timelineLeftInset,
-    testID
+    testID,
+    showheaderWithBtn,
+    headerWithBtn
   };
 
   return headerProps;

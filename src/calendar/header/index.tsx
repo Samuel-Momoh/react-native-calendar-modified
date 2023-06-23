@@ -1,7 +1,7 @@
 import includes from 'lodash/includes';
 import XDate from 'xdate';
 
-import React, {Fragment, ReactNode, useCallback, useMemo, forwardRef, useImperativeHandle, useRef} from 'react';
+import React, { Fragment, ReactNode, useCallback, useMemo, forwardRef, useImperativeHandle, useRef } from 'react';
 import {
   ActivityIndicator,
   Platform,
@@ -15,9 +15,9 @@ import {
   ColorValue,
   Insets
 } from 'react-native';
-import {formatNumbers, weekDayNames} from '../../dateutils';
+import { formatNumbers, weekDayNames } from '../../dateutils';
 import styleConstructor from './style';
-import {Theme, Direction} from '../../types';
+import { Theme, Direction } from '../../types';
 
 export interface CalendarHeaderProps {
   month?: XDate;
@@ -70,11 +70,15 @@ export interface CalendarHeaderProps {
   current?: string;
   /** Left inset for the timeline calendar header, default is 72 */
   timelineLeftInset?: number;
+  /**Show Custom header with button */
+  showheaderWithBtn?: boolean;
+  /**Render Custom header with button */
+  headerWithBtn?: any;
 }
 
 const accessibilityActions = [
-  {name: 'increment', label: 'increment'},
-  {name: 'decrement', label: 'decrement'}
+  { name: 'increment', label: 'increment' },
+  { name: 'decrement', label: 'decrement' }
 ];
 
 const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
@@ -105,10 +109,11 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     numberOfDays,
     current = '',
     timelineLeftInset,
-    enableCustomHeader
+    showheaderWithBtn,
+    headerWithBtn
   } = props;
 
-
+  // console.log(showheaderWithBtn, "header component")
   // console.log(currentDay, "ordinarry")
   const numberOfDaysCondition = useMemo(() => {
     return numberOfDays && numberOfDays > 1;
@@ -118,7 +123,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     return [style.current.header, numberOfDaysCondition ? style.current.partialHeader : undefined];
   }, [numberOfDaysCondition]);
   const partialWeekStyle = useMemo(() => {
-    return [style.current.partialWeek, {paddingLeft: timelineLeftInset}];
+    return [style.current.partialWeek, { paddingLeft: timelineLeftInset }];
   }, [timelineLeftInset]);
   const dayNamesStyle = useMemo(() => {
     return [style.current.week, numberOfDaysCondition ? partialWeekStyle : undefined];
@@ -126,11 +131,11 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
   const hitSlop: Insets | undefined = useMemo(
     () =>
       typeof arrowsHitSlop === 'number'
-        ? {top: arrowsHitSlop, left: arrowsHitSlop, bottom: arrowsHitSlop, right: arrowsHitSlop}
+        ? { top: arrowsHitSlop, left: arrowsHitSlop, bottom: arrowsHitSlop, right: arrowsHitSlop }
         : arrowsHitSlop,
     [arrowsHitSlop]
   );
-  
+
   useImperativeHandle(ref, () => ({
     onPressLeft,
     onPressRight
@@ -197,7 +202,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
   }, [firstDay, current, numberOfDaysCondition, numberOfDays, disabledDaysIndexes]);
 
   const _renderHeader = () => {
-    const webProps = Platform.OS === 'web' ? {'aria-level': webAriaLevel} : {};
+    const webProps = Platform.OS === 'web' ? { 'aria-level': webAriaLevel } : {};
 
     if (renderHeader) {
       return renderHeader(month);
@@ -223,7 +228,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
 
   const _renderArrow = (direction: Direction) => {
     if (hideArrows) {
-      return <View/>;
+      return <View />;
     }
 
     const isLeft = direction === 'left';
@@ -231,8 +236,8 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
     const shouldDisable = isLeft ? disableArrowLeft : disableArrowRight;
     const onPress = !shouldDisable ? isLeft ? onPressLeft : onPressRight : undefined;
     const imageSource = isLeft ? require('../img/previous.png') : require('../img/next.png');
-    const renderArrowDirection = isLeft ? 'left' : 'right';   
-      
+    const renderArrowDirection = isLeft ? 'left' : 'right';
+
     return (
       <TouchableOpacity
         onPress={onPress}
@@ -244,7 +249,7 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
         {renderArrow ? (
           renderArrow(renderArrowDirection)
         ) : (
-          <Image source={imageSource} style={shouldDisable ? style.current.disabledArrowImage : style.current.arrowImage}/>
+          <Image source={imageSource} style={shouldDisable ? style.current.disabledArrowImage : style.current.arrowImage} />
         )}
       </TouchableOpacity>
     );
@@ -278,7 +283,6 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
       );
     }
   };
-
   return (
     <View
       testID={testID}
@@ -290,27 +294,30 @@ const CalendarHeader = forwardRef((props: CalendarHeaderProps, ref) => {
       accessibilityElementsHidden={accessibilityElementsHidden} // iOS
       importantForAccessibility={importantForAccessibility} // Android
     >
-      {/* <View style={{flex: 1, flexDirection: "row", justifyContent:"space-between"}}>
-      <View style={headerStyle}>
-        {_renderArrow('left')}
-        <View style={style.current.headerContainer}>
-          {_renderHeader()}
-          {renderIndicator()}
-        </View>
-        {_renderArrow('right')}
-      </View> 
-      <View style={{width: 40, height: 40, backgroundColor:"red"}}/>
-      </View> */}
-      <View style={headerStyle}>
-        {_renderArrow('left')}
-        <View style={style.current.headerContainer}>
-          {_renderHeader()}
-          {renderIndicator()}
-        </View>
-        {_renderArrow('right')}
-      </View> 
+      {
+        showheaderWithBtn ?
+          <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
+            <View style={headerStyle}>
+              {_renderArrow('left')}
+              <View style={style.current.headerContainer}>
+                {_renderHeader()}
+                {renderIndicator()}
+              </View>
+              {_renderArrow('right')}
+            </View>
+            {headerWithBtn}
+          </View>
+          :
+          <View style={headerStyle}>
+            {_renderArrow('left')}
+            <View style={style.current.headerContainer}>
+              {_renderHeader()}
+              {renderIndicator()}
+            </View>
+            {_renderArrow('right')}
+          </View>
+      }
 
-    
       {renderDayNames()}
     </View>
   );

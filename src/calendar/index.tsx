@@ -63,6 +63,10 @@ export interface CalendarProps extends CalendarHeaderProps, DayProps {
   customHeader?: any;
   /** Allow selection of dates before minDate or after maxDate */
   allowSelectionOutOfRange?: boolean;
+  /**Show Custom header with button */
+  showheaderWithBtn?: boolean;
+  /**Render Custom header with button */
+  headerWithBtn?: any;
 }
 
 /**
@@ -260,7 +264,6 @@ const Calendar = (props: CalendarProps & ContextProp) => {
     const ref = customHeader ? undefined : header;
     const CustomHeader = customHeader;
     const HeaderComponent = customHeader ? CustomHeader : CalendarHeader;
-
     return (
       <HeaderComponent
         {...headerProps}

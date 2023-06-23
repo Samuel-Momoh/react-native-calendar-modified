@@ -390,6 +390,7 @@ dateChangeFnc = (day: XDate) => {
         date={this.state.selectedDay}
         onDateChanged={this.dateChangeFnc}
         
+        
       >
         <ExpandableCalendar
           {...calendarListProps}
@@ -397,7 +398,6 @@ dateChangeFnc = (day: XDate) => {
           markedDates={this.generateMarkings(this.state.selectedDay, markedDates, items)}
           onDayPress={this.onDayPress}
           onPressArrow={this.dateChangeFnc}
-          // onPressArrow={this.onArrowClick}
         
         />
       </CalendarProvider>
