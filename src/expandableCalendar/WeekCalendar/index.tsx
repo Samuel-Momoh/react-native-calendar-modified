@@ -171,6 +171,7 @@ const WeekCalendar = (props: WeekCalendarProps) => {
   }, [firstDay, numberOfDays]);
 
   const onViewableItemsChanged = useCallback(({viewableItems}: { viewableItems: Array<ViewToken>}) => {
+    console.log("items change")
     if (changedItems.current || viewableItems.length === 0) {
       changedItems.current = false;
       return;
